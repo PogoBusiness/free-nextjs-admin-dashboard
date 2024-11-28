@@ -47,7 +47,10 @@ const menuGroups = [
         ),
         label: "Dashboard",
         route: "#",
-        children: [{ label: "eCommerce", route: "/" }],
+        children: [{ label: "eCommerce", route: "/" },
+          {label: "Marketing", route:"/"}
+        ],
+  
       },
       {
         icon: (
@@ -127,7 +130,7 @@ const menuGroups = [
         route: "#",
         children: [
           { label: "Form Elements", route: "/forms/form-elements" },
-          { label: "Form Layout", route: "/forms/form-layout" },
+          { label: "Form Layout", route: "/forms/form-layout" }
         ],
       },
       {

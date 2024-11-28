@@ -1,7 +1,7 @@
 "use client";
 
 import { ApexOptions } from "apexcharts";
-import React from "react";
+import React, { useState }  from "react";
 import dynamic from "next/dynamic";
 
 const ReactApexChart = dynamic(() => import("react-apexcharts"), {
@@ -69,7 +69,7 @@ const options: ApexOptions = {
         show: true,
       },
     },
-  },
+  },  
   dataLabels: {
     enabled: false,
   },
@@ -90,10 +90,6 @@ const options: ApexOptions = {
   xaxis: {
     type: "category",
     categories: [
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
       "Jan",
       "Feb",
       "Mar",
@@ -102,6 +98,10 @@ const options: ApexOptions = {
       "Jun",
       "Jul",
       "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec"
     ],
     axisBorder: {
       show: false,
@@ -129,17 +129,43 @@ interface ChartOneState {
 }
 
 const ChartOne: React.FC = () => {
-  const series = [
-      {
-        name: "Product One",
-        data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
-      },
+  const [timeframe, setTimeframe] = useState("Month");
+  const [series, setSeries] = useState([
+    {
+      name: "Product One",
+      data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45],
+    },
+    {
+      name: "Product Two",
+      data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
+    },
+  ]);
 
-      {
-        name: "Product Two",
-        data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51],
-      },
-    ]
+  const handleTimeframeChange = (newTimeframe: string) => {
+    setTimeframe(newTimeframe);
+    switch (newTimeframe) {
+      case "Day":
+        setSeries([
+          { name: "Product One", data: [10, 15, 20, 25, 18, 30, 22] },
+          { name: "Product Two", data: [15, 25, 18, 35, 28, 40, 32] },
+        ]);
+        break;
+      case "Week":
+        setSeries([
+          { name: "Product One", data: [11, 20, 15, 30, 25, 40, 35] },
+          { name: "Product Two", data: [12, 22, 18, 32, 27, 42, 37] },
+        ]);
+        break;
+      case "Month":
+        setSeries([
+          { name: "Product One", data: [23, 11, 22, 27, 13, 22, 37, 21, 44, 22, 30, 45] },
+          { name: "Product Two", data: [30, 25, 36, 30, 45, 35, 64, 52, 59, 36, 39, 51] },
+        ]);
+        break;
+      default:
+        break;
+    }
+  };
 
   return (
     <div className="col-span-12 rounded-sm border border-stroke bg-white px-5 pb-5 pt-7.5 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:col-span-8">
@@ -161,18 +187,33 @@ const ChartOne: React.FC = () => {
             <div className="w-full">
               <p className="font-semibold text-secondary">Total Sales</p>
               <p className="text-sm font-medium">12.04.2022 - 12.05.2022</p>
-            </div>
+            </div> 
           </div>
         </div>
         <div className="flex w-full max-w-45 justify-end">
           <div className="inline-flex items-center rounded-md bg-whiter p-1.5 dark:bg-meta-4">
-            <button className="rounded bg-white px-3 py-1 text-xs font-medium text-black shadow-card hover:bg-white hover:shadow-card dark:bg-boxdark dark:text-white dark:hover:bg-boxdark">
-              Day
+            <button
+              onClick={() => handleTimeframeChange("Day")}
+              className={`rounded px-3 py-1 text-xs font-medium text-black ${
+                timeframe === "Day" ? "bg-white shadow-card dark:bg-boxdark" : ""
+              }`}
+            >
+              Day  
             </button>
-            <button className="rounded px-3 py-1 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
+            <button
+              onClick={() => handleTimeframeChange("Week")}
+              className={`rounded px-3 py-1 text-xs font-medium text-black ${
+                timeframe === "Week" ? "bg-white shadow-card dark:bg-boxdark" : ""
+              }`}
+            >
               Week
             </button>
-            <button className="rounded px-3 py-1 text-xs font-medium text-black hover:bg-white hover:shadow-card dark:text-white dark:hover:bg-boxdark">
+            <button
+              onClick={() => handleTimeframeChange("Month")}
+              className={`rounded px-3 py-1 text-xs font-medium text-black ${
+                timeframe === "Month" ? "bg-white shadow-card dark:bg-boxdark" : ""
+              }`}
+            >
               Month
             </button>
           </div>
