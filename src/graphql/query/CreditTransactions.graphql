@@ -1,0 +1,8 @@
+query allGetCreditTransactions {
+  allCreditTransactions {
+    id
+    createdAt
+    amount
+  }
+}
+

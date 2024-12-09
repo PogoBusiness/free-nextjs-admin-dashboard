@@ -1,0 +1,7 @@
+query{users
+    user{
+    id
+    nickname
+    createdAt
+    }
+}
